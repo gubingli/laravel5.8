@@ -76,7 +76,7 @@ class RegisterController extends Controller
         //检测账号是否有人注册
         $user = User::where(['account'=>$request['account'],'role'=>$request['role']])->first();
 
-        if ($user)   return $this->response->error('该账号已有人注册',403);
+        if ($user)   return $this->response->array(['message'=>'该账号已有人注册','status_code'=>200]);
 
         $user = User::create([
             'account' => $request['account'],

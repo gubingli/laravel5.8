@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\CompanyInfo;
+use App\Models\CompanyInfo;
+use App\Models\EmployeesInfo;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class UserInfoController extends Controller
         $data = $request->json('data');
 
         $user = User::find($data['user_id']);
-        if($user){
+        if($user && $user->role > 0){
+            //机构
             if($user->role == 1) {
                 $company_info =  CompanyInfo::where(['user_id'=>$user->id])->first();
 
@@ -34,6 +36,18 @@ class UserInfoController extends Controller
                 }
             }
 
+           //医生
+            if($user->role == 2) {
+                $company_info =  EmployeesInfo::where(['user_id'=>$user->id])->first();
+
+                if($company_info){
+                    $res =  EmployeesInfo::where('user_id',$user->id)->update($data);
+                }else{
+                    $res =  EmployeesInfo::create($data);
+                }
+            }
+
+           //普通会员
             if($user->role == 3) {
                 $user_info =  UserInfo::where(['user_id'=>$user->id])->first();
 
@@ -50,6 +64,7 @@ class UserInfoController extends Controller
 
         }
 
+        return $this->response->error('数据不存在',403);
     }
 
 }
