@@ -30,7 +30,7 @@ class AuthController extends Controller
             return $this->response->array(['message'=>'账号或密码有误，请重新登录','status_code'=>403]);
         }
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token,$credentials['role']);
     }
 
     /**
@@ -71,12 +71,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token,$role)
     {
+
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'role' => $role
         ]);
     }
 }
