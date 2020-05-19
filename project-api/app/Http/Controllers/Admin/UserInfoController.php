@@ -20,52 +20,36 @@ class UserInfoController extends Controller
 
     public function update(Request $request)
     {
-       //`true_name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户姓名',
-//  `phone` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '手机号码',
-//  `description` text COLLATE utf8mb4_unicode_ci COMMENT '个人简介',
-//  `nation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '民族',
-//  `avatar` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
-//  `birthday_at` datetime DEFAULT NULL COMMENT '出生年月',
-//  `education` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '学历',
-//  `card_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '身份证号码',
-//  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '地址',
-//  `company` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '所在公司',
-//  `company_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '公司id',
-//  `position` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '职位',
-//  `department` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '部门',
-//  `email` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-//  `qq` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'qq号码',
-//  `wechat` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '微信号码',
         $data = $request->json('data');
 
         $user = User::find($data['user_id']);
+        if($user){
+            if($user->role == 1) {
+                $company_info =  CompanyInfo::where(['user_id'=>$user->id])->first();
 
-
-
-
-        if($user && $user->role == 1) {
-           $company_info =  CompanyInfo::where(['user_id'=>$data['user_id']])->first();
-
-           if($company_info){
-               $res =  CompanyInfo::where('id',$company_info->id)->updated($data);
-           }else{
-               $res =  CompanyInfo::create($data);
-           }
-
-           return $res;
-        }
-
-        if($user && $user->role == 3) {
-            $user_info =  UserInfo::where(['user_id'=>$data['user_id']])->first();
-
-            if($user_info){
-                $res =  UserInfo::where('id',$user_info->id)->updated($data);
-            }else{
-                $res =  UserInfo::create($data);
+                if($company_info){
+                    $res =  CompanyInfo::where('user_id',$user->id)->update($data);
+                }else{
+                    $res =  CompanyInfo::create($data);
+                }
             }
 
-            return $res;
+            if($user->role == 3) {
+                $user_info =  UserInfo::where(['user_id'=>$user->id])->first();
+
+                if($user_info){
+                    $res =  UserInfo::where('user_id',$user->id)->update($data);
+                }else{
+                    $res =  UserInfo::create($data);
+                }
+            }
+
+            if(!$res) return $this->response->error('操作失败',403);
+
+            return $this->response->array(['message'=>'操作成功','status_code'=>200]);
+
         }
+
     }
 
 }
