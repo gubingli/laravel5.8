@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\CompanyInfo;
-use App\Models\EmployeesInfo;
+use App\Models\DoctorInfo;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
@@ -38,12 +38,12 @@ class UserInfoController extends Controller
 
            //医生
             if($user->role == 2) {
-                $company_info =  EmployeesInfo::where(['user_id'=>$user->id])->first();
+                $doctor_info =  DoctorInfo::where(['user_id'=>$user->id])->first();
 
-                if($company_info){
-                    $res =  EmployeesInfo::where('user_id',$user->id)->update($data);
+                if($doctor_info){
+                    $res =  DoctorInfo::where('user_id',$user->id)->update($data);
                 }else{
-                    $res =  EmployeesInfo::create($data);
+                    $res =  DoctorInfo::create($data);
                 }
             }
 
@@ -58,13 +58,13 @@ class UserInfoController extends Controller
                 }
             }
 
-            if(!$res) return $this->response->error('操作失败',403);
+            if(!$res) return $this->response->array(['message'=>'操作失败','status_code'=>403]);
 
             return $this->response->array(['message'=>'操作成功','status_code'=>200]);
 
         }
 
-        return $this->response->error('数据不存在',403);
+        return return $this->response->array(['message'=>'数据不存在','status_code'=>403]);
     }
 
 }
