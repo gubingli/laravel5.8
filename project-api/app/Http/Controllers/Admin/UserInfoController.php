@@ -64,7 +64,7 @@ class UserInfoController extends Controller
 
         }
 
-        return return $this->response->array(['message'=>'数据不存在','status_code'=>403]);
+        return $this->response->array(['message'=>'数据不存在','status_code'=>403]);
     }
 
 }
