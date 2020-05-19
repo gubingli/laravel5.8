@@ -24,10 +24,10 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['account', 'password']);
+        $credentials = request(['account', 'password','role']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return $this->response->array('账号或密码有误，请重新登录',403);
+            return $this->response->array(['message'=>'账号或密码有误，请重新登录','status_code'=>403]);
         }
 
         return $this->respondWithToken($token);
