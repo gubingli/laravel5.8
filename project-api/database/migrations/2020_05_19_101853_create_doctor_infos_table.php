@@ -18,6 +18,7 @@ class CreateDoctorInfosTable extends Migration
             $table->bigIncrements('di_id');
             $table->unsignedBigInteger('user_id')->unique()->comment('用户id');
             $table->string('true_name', 64)->nullable()->comment('用户姓名');
+            $table->smallInteger('gender')->default(1)->comment('性别，0 未知，1男，2女');
             $table->string('phone', 16)->nullable()->comment('手机号码');
             $table->text('description')->nullable()->comment('个人简介');
             $table->text('pics')->comment('职业证书图片');

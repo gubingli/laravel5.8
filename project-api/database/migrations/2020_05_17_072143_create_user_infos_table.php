@@ -18,6 +18,7 @@ class CreateUserInfosTable extends Migration
             $table->bigIncrements('ui_id');
             $table->unsignedBigInteger('user_id')->unique()->comment('用户id');
             $table->string('true_name', 64)->nullable()->comment('用户姓名');
+            $table->smallInteger('gender')->default(1)->comment('性别，0 未知，1男，2女');
             $table->string('phone', 16)->nullable()->comment('手机号码');
             $table->text('description')->nullable()->comment('个人简介');
             $table->string('nation', 100)->nullable()->comment('民族');
