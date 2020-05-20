@@ -21,16 +21,16 @@ class UserInfoController extends Controller
 
        //机构
        if($role == 1) {
-          $res =  CompanyInfo::orderBy('created_at','desc')->simplePaginate(10);
+          $res =  CompanyInfo::orderBy('created_at','desc')->paginate(10);
        }
        //医生
         if($role == 2) {
-            $res =  DoctorInfo::orderBy('created_at','desc')->simplePaginate(10);
+            $res =  DoctorInfo::orderBy('created_at','desc')->paginate(10);
         }
 
         //普通会员
         if($role == 3) {
-            $res =  UserInfo::orderBy('created_at','desc')->simplePaginate(10);
+            $res =  UserInfo::orderBy('created_at','desc')->paginate(10);
         }
         return $this->response->array(['message'=>'获取成功','data'=>$res,'status_code'=>200]);
     }
@@ -44,6 +44,7 @@ class UserInfoController extends Controller
         $data = $request->json('data');
 
         $user = User::find($data['user_id']);
+
         if($user && $user->role > 0){
             //机构
             if($user->role == 1) {

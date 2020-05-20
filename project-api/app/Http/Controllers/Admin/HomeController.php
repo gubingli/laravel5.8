@@ -83,10 +83,12 @@ class HomeController extends Controller
 
                 //存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
                 Storage::disk('public')->put($filename, file_get_contents($path));
-             return $this->response->array(['url' => $filename])->setStatusCode(201);
+                $local_path =  'storage/app/public/'.$filename;
+
+                return $this->response->array(['message'=>'上传成功','data'=>$local_path,'status_code'=>200]);
             }
         }
 
-        return view('admin.home');
+        return $this->response->array(['message'=>'上传失败','status_code'=>403]);
     }
 }
