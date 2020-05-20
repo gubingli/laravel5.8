@@ -13,7 +13,7 @@ $api->version('v1',[
         $api->post('/login', 'Auth\AuthController@login')->name('login'); //登录
 
 
-        $api->group(['middleware' => ['auth','Cors']], function($api){
+       // $api->group(['middleware' => ['auth','Cors']], function($api){
             $api->post('/logout', 'AuthController@logout')->name('logout'); //退出
 
             $api->post('/update','UserInfoController@update')->name('update'); //用户信息修改
@@ -32,7 +32,7 @@ $api->version('v1',[
             $api->post('/banners','UserController@add')->name('banners.add'); //轮播图新增
             $api->delete('/banners/d','UserController@del')->name('banners.del'); //轮播图新增
 
-        });
+       // });
 
     });
 });
