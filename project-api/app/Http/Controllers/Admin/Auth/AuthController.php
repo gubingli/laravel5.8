@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -30,7 +31,10 @@ class AuthController extends Controller
             return $this->response->array(['message'=>'账号或密码有误，请重新登录','status_code'=>403]);
         }
 
-        return $this->respondWithToken($token,$credentials['role']);
+        $user = User::where(['role'=>$credentials['role'],'account'=>$credentials['account']])->first();
+        $credentials['user_id'] = $user->id;
+
+        return $this->respondWithToken($token,$credentials);
     }
 
     /**
@@ -71,11 +75,13 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token,$role)
+    protected function respondWithToken($token,$datas)
     {
         $data = [
             'access_token' => $token,
-            'role' => $role,
+            'role' => $datas['role'],
+            'user_id' => $datas['user_id'],
+            'account' => $datas['account'],
         ];
 
         return $this->response->array(['message'=>'登录成功','status_code'=>200,'data'=>$data]);

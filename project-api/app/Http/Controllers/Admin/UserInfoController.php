@@ -41,10 +41,9 @@ class UserInfoController extends Controller
      */
     public function update(Request $request)
     {
-        $user = $this->user();
         $data = $request->json('data');
 
-        $user = User::find($user->id);
+        $user = User::find($data['user_id']);
         if($user && $user->role > 0){
             //机构
             if($user->role == 1) {
