@@ -21,16 +21,16 @@ class UserInfoController extends Controller
 
        //机构
        if($role == 1) {
-          $res =  CompanyInfo::orderBy('created_at','desc')->get();
+          $res =  CompanyInfo::orderBy('created_at','desc')->simplePaginate(10);
        }
        //医生
         if($role == 2) {
-            $res =  DoctorInfo::orderBy('created_at','desc')->get();
+            $res =  DoctorInfo::orderBy('created_at','desc')->simplePaginate(10);
         }
 
         //普通会员
         if($role == 3) {
-            $res =  UserInfo::orderBy('created_at','desc')->get();
+            $res =  UserInfo::orderBy('created_at','desc')->simplePaginate(10);
         }
         return $this->response->array(['message'=>'获取成功','data'=>$res,'status_code'=>200]);
     }
@@ -114,12 +114,27 @@ class UserInfoController extends Controller
 
     public function detail(Request $request)
     {
-//      $user =   User::find($request->user_id);
-//        if($user && $user->role > 0) {
-//            if($user->role == 1) {
-//                CompanyInfo::where(['user_id'=>$user->id])->
-//            }
-//        }
+       $user = User::find($request->user_id);
+          if($user && $user->role > 0) {
+             if($user->role == 1) {
+                $res =  CompanyInfo::where(['user_id'=>$user->id])->first();
+             }
+
+             if($user->role == 2) {
+                $res =  DoctorInfo::where(['user_id'=>$user->id])->first();
+             }
+
+             if($user->role == 3) {
+                $res =  UserInfo::where(['user_id'=>$user->id])->first();
+             }
+
+              if(!$res) return $this->response->array(['message'=>'获取失败','status_code'=>403]);
+
+              return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>$res]);
+          }
+
+          return $this->response->array(['message'=>'用户信息不存在','status_code'=>403]);
+
     }
 
 }

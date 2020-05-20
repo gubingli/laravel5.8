@@ -16,12 +16,15 @@ $api->version('v1',[
        // $api->group(['middleware' => ['auth','Cors']], function($api){
             $api->post('/logout', 'AuthController@logout')->name('logout'); //退出
 
+            $api->post('/detail','UserInfoController@detail')->name('detail'); //用户信息详情
             $api->post('/update','UserInfoController@update')->name('update'); //用户信息修改
-            $api->get('/info','UserInfoController@index')->name('info'); //用户信息列表
+            $api->get('/list','UserInfoController@index')->name('info'); //用户信息列表
             $api->post('/check','UserInfoController@check')->name('check'); //会员信息列表（普通会员）
 
+
             $api->group(['prefix' => 'company'], function ($api) {
-                $api->post('/member/add', 'CompanyInfoController@add'); //添加普通会员
+                $api->post('/member/add', 'CompanyInfoController@add'); //机构添加会员
+                $api->post('/member/memberList', 'CompanyInfoController@memberList'); //机构会员列表
 
             });
 
