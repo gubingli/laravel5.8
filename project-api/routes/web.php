@@ -13,7 +13,7 @@ $api->version('v1',[
         $api->post('/login', 'Auth\AuthController@login')->name('login'); //登录
 
 
-        $api->group(['middleware' => ['api.auth']], function($api){
+        $api->group(['middleware' => ['auth']], function($api){
             $api->post('/logout', 'AuthController@logout')->name('logout'); //退出
 
             $api->post('/update','UserInfoController@update')->name('update'); //用户信息修改
