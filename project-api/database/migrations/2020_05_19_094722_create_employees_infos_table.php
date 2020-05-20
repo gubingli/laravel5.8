@@ -34,7 +34,7 @@ class CreateEmployeesInfosTable extends Migration
             $table->nullableTimestamps();
         });
 
-        DB::statement("ALTER TABLE `user_infos` comment '公司职员信息表'");
+        DB::statement("ALTER TABLE `employees_infos` comment '公司职员信息表'");
     }
 
     /**

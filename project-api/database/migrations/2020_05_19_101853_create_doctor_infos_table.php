@@ -38,7 +38,7 @@ class CreateDoctorInfosTable extends Migration
             $table->nullableTimestamps();
         });
 
-        DB::statement("ALTER TABLE `user_infos` comment '医生信息表'");
+        DB::statement("ALTER TABLE `doctor_infos` comment '医生信息表'");
 
     }
 
