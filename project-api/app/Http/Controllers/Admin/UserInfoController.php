@@ -13,10 +13,22 @@ class UserInfoController extends Controller
 {
     public function index(Request $request)
     {
-        $type = $request->type;
+        $role = $request->role ? $request->role :2;
 
-        $users = User::get();
-        return $this->response->array(['data' => $users])->setStatusCode(201);
+       //机构
+       if($role == 1) {
+          $res =  CompanyInfo::orderBy('created_at','desc')->get();
+       }
+       //医生
+        if($role == 2) {
+            $res =  DoctorInfo::orderBy('created_at','desc')->get();
+        }
+
+        //普通会员
+        if($role == 3) {
+            $res =  UserInfo::orderBy('created_at','desc')->get();
+        }
+        return $this->response->array(['message'=>'获取成功','data'=>$res,'status_code'=>200]);
     }
 
     public function update(Request $request)

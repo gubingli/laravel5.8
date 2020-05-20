@@ -27,7 +27,6 @@ class CreateDoctorInfosTable extends Migration
             $table->dateTime('birthday_at')->nullable()->comment('出生年月');
             $table->string('card_no')->nullable()->comment('身份证号码');
             $table->string('address')->nullable()->comment('地址');
-            $table->string('company_id')->nullable()->comment('公司id');
             $table->string('position')->nullable()->comment('职位');
             $table->string('department')->nullable()->comment('部门');
             $table->string('email', 32)->nullable()->comment('邮箱');

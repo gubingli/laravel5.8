@@ -17,8 +17,9 @@ $api->version('v1',[
             $api->post('/logout', 'AuthController@logout')->name('logout'); //退出
 
             $api->post('/update','UserInfoController@update')->name('update'); //用户信息修改
+            $api->get('/info','UserInfoController@index')->name('index'); //用户信息列表
 
-            $api->get('/info','UserInfoController@index')->name('info'); //会员信息列表（普通会员）
+           // $api->get('/info','UserInfoController@index')->name('info'); //会员信息列表（普通会员）
 
 
 
