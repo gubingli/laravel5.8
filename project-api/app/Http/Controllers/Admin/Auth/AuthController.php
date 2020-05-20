@@ -73,12 +73,12 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token,$role)
     {
-
-        return response()->json([
+        $data = [
             'access_token' => $token,
             'role' => $role,
-            'status_code'=>200,
-            'message'=>'登录成功'
-        ]);
+        ];
+
+        return $this->response->array(['message'=>'登录成功','status_code'=>200,'data'=>$data]);
+
     }
 }
