@@ -21,7 +21,7 @@ class CreateDoctorInfosTable extends Migration
             $table->smallInteger('gender')->default(1)->comment('性别，0 未知，1男，2女');
             $table->string('phone', 16)->nullable()->comment('手机号码');
             $table->text('description')->nullable()->comment('个人简介');
-            $table->text('pics')->comment('职业证书图片');
+            $table->text('pics')->nullable()->comment('职业证书图片');
             $table->string('nation', 100)->nullable()->comment('民族');
             $table->string('avatar', 200)->nullable()->comment('头像');
             $table->dateTime('birthday_at')->nullable()->comment('出生年月');
@@ -32,7 +32,7 @@ class CreateDoctorInfosTable extends Migration
             $table->string('email', 32)->nullable()->comment('邮箱');
             $table->string('qq', 16)->nullable()->comment('qq号码');
             $table->string('wechat', 32)->nullable()->comment('微信号码');
-            $table->TinyInteger('audit_status')->default(2)->comment('审核状态 0审核失败 1审核中 2审核通过');
+            $table->TinyInteger('audit_status')->default(1)->comment('状态：0，审核失败 1，待审核，2，审核通过，3，未提交审核');
             $table->string('reason')->nullable()->comment('审核通过不通过的理由');
             $table->dateTime('pass_at')->nullable()->comment('审核通过时间');
             $table->nullableTimestamps();
