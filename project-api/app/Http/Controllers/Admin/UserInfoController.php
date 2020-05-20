@@ -11,6 +11,10 @@ use App\Http\Controllers\Controller;
 
 class UserInfoController extends Controller
 {
+    /**平台人员列表
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $role = $request->role ? $request->role :2;
@@ -31,11 +35,16 @@ class UserInfoController extends Controller
         return $this->response->array(['message'=>'获取成功','data'=>$res,'status_code'=>200]);
     }
 
+    /**用户信息修改
+     * @param Request $request
+     * @return mixed
+     */
     public function update(Request $request)
     {
+        $user = $this->user();
         $data = $request->json('data');
 
-        $user = User::find($data['user_id']);
+        $user = User::find($user->id);
         if($user && $user->role > 0){
             //机构
             if($user->role == 1) {
@@ -77,6 +86,31 @@ class UserInfoController extends Controller
         }
 
         return $this->response->array(['message'=>'数据不存在','status_code'=>403]);
+    }
+
+    /**人员审核（医生，机构）
+     * @param Request $request
+     * @return mixed
+     */
+    public function check(Request $request)
+    {
+        $data = $request->json('data');
+        $column['audit_status'] = $data['audit_status'];
+        if($data['audit_status'] == 2) $column['pass_at'] = date('Y-m-d H:i:s');
+        if($data['audit_status'] == 0) $column['reason'] = $data['reason'];
+
+        $user = User::find($data['user_id']);
+        if($user && $user->role ==1){
+            $res =  CompanyInfo::where(['user_id'=>$user->id])->update($column);
+        }
+
+        if($user && $user->role ==2){
+            $res =  DoctorInfo::where(['user_id'=>$user->id])->update($column);
+        }
+
+        if(!$res) return $this->response->array(['message'=>'操作失败','status_code'=>403]);
+
+        return $this->response->array(['message'=>'操作成功','status_code'=>200]);
     }
 
 }

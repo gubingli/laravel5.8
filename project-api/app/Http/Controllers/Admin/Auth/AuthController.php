@@ -76,7 +76,9 @@ class AuthController extends Controller
 
         return response()->json([
             'access_token' => $token,
-            'role' => $role
+            'role' => $role,
+            'status_code'=>200,
+            'message'=>'登录成功'
         ]);
     }
 }
