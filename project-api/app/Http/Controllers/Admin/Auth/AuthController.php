@@ -27,7 +27,7 @@ class AuthController extends Controller
     {
         $credentials = request(['account', 'password','role']);
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (! $token = auth()->attempt($credentials)) {
             return $this->response->array(['message'=>'账号或密码有误，请重新登录','status_code'=>403]);
         }
 
