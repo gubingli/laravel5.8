@@ -25,9 +25,13 @@ class CompanyInfoController extends Controller
        return $this->response->array(['message'=>'操作成功','data'=>$res,'status_code'=>200]);
    }
 
-   public function memberList(Request $request)
+    /**机构会员信息列表
+     * @param Request $request
+     * @return mixed
+     */
+    public function memberList(Request $request)
    {
-
-       return UserInfo::where('company_id',$request->cid)->simplePaginate(10);
+       $res =  UserInfo::where('company_id',$request->cid)->simplePaginate(10);
+       return $this->response->array(['message'=>'获取成功','data'=>$res,'status_code'=>200]);
    }
 }
