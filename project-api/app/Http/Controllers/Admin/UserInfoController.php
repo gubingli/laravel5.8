@@ -112,4 +112,14 @@ class UserInfoController extends Controller
         return $this->response->array(['message'=>'操作成功','status_code'=>200]);
     }
 
+    public function detail(Request $request)
+    {
+//      $user =   User::find($request->user_id);
+//        if($user && $user->role > 0) {
+//            if($user->role == 1) {
+//                CompanyInfo::where(['user_id'=>$user->id])->
+//            }
+//        }
+    }
+
 }

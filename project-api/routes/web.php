@@ -13,13 +13,17 @@ $api->version('v1',[
         $api->post('/login', 'Auth\AuthController@login')->name('login'); //登录
 
 
-        $api->group(['middleware' => ['auth']], function($api){
+        $api->group(['middleware' => ['api.auth']], function($api){
             $api->post('/logout', 'AuthController@logout')->name('logout'); //退出
 
             $api->post('/update','UserInfoController@update')->name('update'); //用户信息修改
             $api->get('/info','UserInfoController@index')->name('info'); //用户信息列表
             $api->post('/check','UserInfoController@check')->name('check'); //会员信息列表（普通会员）
 
+            $api->group(['prefix' => 'company'], function ($api) {
+                $api->post('/member/add', 'CompanyInfoController@add'); //添加普通会员
+
+            });
 
 
 
