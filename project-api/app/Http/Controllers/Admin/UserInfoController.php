@@ -21,16 +21,17 @@ class UserInfoController extends Controller
 
        //机构
        if($role == 1) {
-          $res =  CompanyInfo::orderBy('created_at','desc')->paginate(10);
+          $res =  User::leftjoin('company_infos','user_id','=','id')->orderBy('users.created_at','desc')->paginate(10);
        }
+
        //医生
         if($role == 2) {
-            $res =  DoctorInfo::orderBy('created_at','desc')->paginate(10);
+            $res =  User::leftjoin('doctor_infos','user_id','=','id')->orderBy('users.created_at','desc')->paginate(10);
         }
 
         //普通会员
         if($role == 3) {
-            $res =  UserInfo::orderBy('created_at','desc')->paginate(10);
+            $res =  User::leftjoin('user_infos','user_id','=','id')->orderBy('users.created_at','desc')->paginate(10);
         }
         return $this->response->array(['message'=>'获取成功','data'=>$res,'status_code'=>200]);
     }
