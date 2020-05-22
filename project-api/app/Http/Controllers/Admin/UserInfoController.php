@@ -116,6 +116,8 @@ class UserInfoController extends Controller
 
     public function detail(Request $request)
     {
+       if(!$request->user_id)  return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>null]);
+
        $user = User::find($request->user_id);
           if($user && $user->role > 0) {
              if($user->role == 1) {
