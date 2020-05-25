@@ -116,28 +116,62 @@ class UserInfoController extends Controller
 
     public function detail(Request $request)
     {
-       if(!$request->user_id)  return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>null]);
+        $host =  $_SERVER["HTTP_HOST"];
+        $user = User::find($request->user_id);
 
-       $user = User::find($request->user_id);
-          if($user && $user->role > 0) {
-             if($user->role == 1) {
+        if($user && $user->role > 0) {
+            if($user->role == 1) {
                 $res =  CompanyInfo::where(['user_id'=>$user->id])->first();
-             }
+                //return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>$res]);
+            }
 
-             if($user->role == 2) {
+            if($user->role == 2) {
                 $res =  DoctorInfo::where(['user_id'=>$user->id])->first();
-             }
+                //return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>$res]);
+            }
 
-             if($user->role == 3) {
+            if($user->role == 3) {
                 $res =  UserInfo::where(['user_id'=>$user->id])->first();
-             }
+                //return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>$res]);
+            }
 
-              if(!$res) return $this->response->array(['message'=>'获取失败','status_code'=>403]);
+            if(!$res) return $this->response->array(['status_code'=>200,'data'=>null]);
 
-              return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>$res]);
-          }
+            $data = $res->toArray();
 
-          return $this->response->array(['message'=>'用户信息不存在','status_code'=>403]);
+            if(isset($data['license_pic']) && !empty($data['license_pic'])) {
+                $url = $data['license_pic'];
+                $parts = parse_url($url);
+                $c=$parts['path'];
+                $a=explode('/',$c);
+                $data['pic_name'] = isset($a[2]) ? $a[2] : '';
+                $data['url_a'] = 'http://'.$host . $data['license_pic'];
+            }
+
+            if(isset($data['pics']) && !empty($data['pics'])) {
+                $url = $data['pics'];
+                $parts = parse_url($url);
+                $c=$parts['path'];
+                $a=explode('/',$c);
+                $data['pic_name'] = isset($a[2]) ? $a[2] : '' ;
+                $data['url_a'] = 'http://'.$host . $data['pics'];
+            }
+
+            if(isset($data['avatar']) && !empty($data['avatar'])) {
+                $url = $data['avatar'];
+                $parts = parse_url($url);
+                $c=$parts['path'];
+                $a=explode('/',$c);
+                $data['avatar_name'] = isset($a[2]) ? $a[2] : '' ;
+                $data['avatar_url_a'] = 'http://'.$host . $data['avatar'];
+            }
+
+            return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>$data]);
+
+
+        }
+
+        return $this->response->array(['message'=>'获取成功','status_code'=>200,'data'=>null]);
 
     }
 
