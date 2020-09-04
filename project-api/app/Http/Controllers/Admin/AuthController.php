@@ -15,7 +15,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('verifyToken', ['except' => ['login','loginSms']]);
+        $this->middleware('verifyToken', ['except' => ['login']]);
 
     }
 
