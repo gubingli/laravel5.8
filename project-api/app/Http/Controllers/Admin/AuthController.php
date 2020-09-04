@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Facades\Repositories\User\UserRepositories;
-use App\Models\AuthCode;
-use App\Models\NewUser;
 use App\Models\User;
-use App\Unit\Sms\Chanzor;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 header('Access-Control-Expose-Headers:Authorization');
