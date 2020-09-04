@@ -10,18 +10,20 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = User::find(1);
-        $token = auth('users')->fromUser($user);
-        return $this->respondWithToken($token);
+        $user = auth()->user();
+      return  $user;
+        //$token = auth('users')->fromUser($user);
+       // return $this->respondWithToken($token);
 
     }
 
-    protected function respondWithToken($token)
+    public function login()
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('users')->factory()->getTTL() * 60
-        ]);
+        $user = User::find(1);
+        $token = auth()->login($user);
+
+        return $token;
     }
+
+
 }

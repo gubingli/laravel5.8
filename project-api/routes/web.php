@@ -21,9 +21,12 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
-    'namespace' => 'App\Http\Controllers\Admin'
+    'namespace' => 'App\Http\Controllers\Admin',
+    'prefix' => 'admin'
 ], function($api) {
+    $api->get('/login', 'AuthController@login')->name('api.home.login');
 
-    $api->get('/', 'HomeController@index')->name('api.home.index');
-
+    $api->group(['middleware' => ['verifyToken']], function($api) {
+        $api->get('/', 'HomeController@index')->name('api.home.index');
+    });
 });
