@@ -11,22 +11,21 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
-
-use Illuminate\Http\Request;
-
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Admin',
     'prefix' => 'admin'
 ], function($api) {
-    $api->get('/login', 'AuthController@login')->name('api.home.login');
+    $api->get('/login', 'AuthController@login')->name('api.home.login'); //登录
 
     $api->group(['middleware' => ['verifyToken']], function($api) {
         $api->get('/', 'HomeController@index')->name('api.home.index');
+
+        $api->group(['namespace' => 'User','prefix' => 'user'], function($api) {
+            $api->get('/detail', 'RoleController@detail')->name('user.list'); //用户详情
+
+
+        });
     });
 });

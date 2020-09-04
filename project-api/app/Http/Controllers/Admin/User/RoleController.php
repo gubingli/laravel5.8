@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\User;
 
 use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class RoleController extends Controller
 {
-    public function index()
+    public function detail()
     {
         $user = auth()->user();
 
@@ -22,14 +22,6 @@ class HomeController extends Controller
         }
 
         return $new_user;
-    }
-
-    public function login()
-    {
-        $user = User::find(1);
-        $token = auth()->login($user);
-
-        return $token;
     }
 
 
